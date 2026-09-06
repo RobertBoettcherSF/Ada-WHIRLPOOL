@@ -144,14 +144,14 @@ begin
       Check ("10.3 Multi-block padding handling correct", Digest_To_Hex (Res) /= Digest_To_Hex (Hash (Msg(1..64))));
    end;
 
-   -- TEST 11 — Collision Resistance Property (Sanity check)
+   -- TEST 11 — Collision Resistance Property
    Put_Line ("TEST 11 — Collision Resistance Property");
    declare
       Res1 : constant Digest := Hash_String ("Hello");
       Res2 : constant Digest := Hash_String ("Hellp");
    begin
-      Check ("11.1 Different inputs yield different digests (byte 0)", Res1(0) /= Res2(0));
-      Check ("11.2 Different inputs yield different digests (byte 31)", Res1(31) /= Res2(31));
+      Check ("11.1 Different inputs yield different digests", Res1 /= Res2);
+      Check ("11.2 Hash prefixes differ (first half)", Res1(0..31) /= Res2(0..31));
       Check ("11.3 Full hex strings differ", Digest_To_Hex (Res1) /= Digest_To_Hex (Res2));
    end;
 
