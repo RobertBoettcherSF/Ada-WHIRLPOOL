@@ -41,7 +41,7 @@ begin
    end;
 
    -- TEST 3 — Alphabet Hash ("abc")
-   Put_Line ("TEST 3 — Alphabet Hash (\"abc\")");
+   Put_Line ("TEST 3 — Alphabet Hash (""abc"")");
    declare
       Res : Digest := Hash_String ("abc");
       Hex : String := Digest_To_Hex (Res);
@@ -178,21 +178,22 @@ begin
    -- TEST 13 — Exception and Error Handling Robustness
    Put_Line ("TEST 13 — Exception and Error Handling Robustness");
    declare
-      Exception_Raised : Boolean := false;
+      Exception_Raised : Boolean := False;
    begin
       begin
          declare
             D : Digest := Hash_String ("Test");
+            pragma Unreferenced (D);
          begin
-            Exception_Raised := (D'Length = 64);
+            Exception_Raised := True;
          end;
       exception
          when others =>
-            Exception_Raised := false;
+            Exception_Raised := False;
       end;
       Check ("13.1 Normal execution completes without unhandled exception", Exception_Raised);
       Check ("13.2 Pass count tracking functional", Pass_Count > 0);
-      Check ("13.3 Test framework integrity verified", Fail_Count = 0 or Fail_Count >= 0);
+      Check ("13.3 Test framework integrity verified", Pass_Count + Fail_Count > 0);
    end;
 
    Put_Line ("");
