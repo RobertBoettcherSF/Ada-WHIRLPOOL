@@ -21,8 +21,8 @@ begin
    -- TEST 1 — Empty String Hash
    Put_Line ("TEST 1 — Empty String Hash");
    declare
-      Res : Digest := Hash_String ("");
-      Hex : String := Digest_To_Hex (Res);
+      Res : constant Digest := Hash_String ("");
+      Hex : constant String := Digest_To_Hex (Res);
    begin
       Check ("1.1 Digest length is 64 bytes", Res'Length = 64);
       Check ("1.2 Hex string length is 128 characters", Hex'Length = 128);
@@ -32,8 +32,8 @@ begin
    -- TEST 2 — Single Character Hash ('a')
    Put_Line ("TEST 2 — Single Character Hash ('a')");
    declare
-      Res : Digest := Hash_String ("a");
-      Hex : String := Digest_To_Hex (Res);
+      Res : constant Digest := Hash_String ("a");
+      Hex : constant String := Digest_To_Hex (Res);
    begin
       Check ("2.1 Digest length is 64 bytes", Res'Length = 64);
       Check ("2.2 Hex string length is 128 characters", Hex'Length = 128);
@@ -43,8 +43,8 @@ begin
    -- TEST 3 — Alphabet Hash ("abc")
    Put_Line ("TEST 3 — Alphabet Hash (""abc"")");
    declare
-      Res : Digest := Hash_String ("abc");
-      Hex : String := Digest_To_Hex (Res);
+      Res : constant Digest := Hash_String ("abc");
+      Hex : constant String := Digest_To_Hex (Res);
    begin
       Check ("3.1 Digest length is 64 bytes", Res'Length = 64);
       Check ("3.2 Hex string length is 128 characters", Hex'Length = 128);
@@ -54,8 +54,8 @@ begin
    -- TEST 4 — Longer String Hash
    Put_Line ("TEST 4 — Longer String Hash");
    declare
-      Res : Digest := Hash_String ("The quick brown fox jumps over the lazy dog");
-      Hex : String := Digest_To_Hex (Res);
+      Res : constant Digest := Hash_String ("The quick brown fox jumps over the lazy dog");
+      Hex : constant String := Digest_To_Hex (Res);
    begin
       Check ("4.1 Digest length is 64 bytes", Res'Length = 64);
       Check ("4.2 Hex string length is 128", Hex'Length = 128);
@@ -65,9 +65,9 @@ begin
    -- TEST 5 — Binary Array Input Hash
    Put_Line ("TEST 5 — Binary Array Input Hash");
    declare
-      Msg : Message := (16#01#, 16#02#, 16#03#, 16#04#);
-      Res : Digest := Hash (Msg);
-      Hex : String := Digest_To_Hex (Res);
+      Msg : constant Message := [16#01#, 16#02#, 16#03#, 16#04#];
+      Res : constant Digest := Hash (Msg);
+      Hex : constant String := Digest_To_Hex (Res);
    begin
       Check ("5.1 Hash from byte array succeeds", Res'Length = 64);
       Check ("5.2 Hex output generated", Hex'Length = 128);
@@ -83,8 +83,8 @@ begin
          Large_Msg (I) := Byte (I mod 256);
       end loop;
       declare
-         Res : Digest := Hash (Large_Msg);
-         Hex : String := Digest_To_Hex (Res);
+         Res : constant Digest := Hash (Large_Msg);
+         Hex : constant String := Digest_To_Hex (Res);
       begin
          Check ("6.1 Multi-block hash succeeds", Res'Length = 64);
          Check ("6.2 Hex string generated", Hex'Length = 128);
@@ -95,8 +95,8 @@ begin
    -- TEST 7 — Digest_To_Hex Formatting
    Put_Line ("TEST 7 — Digest_To_Hex Formatting");
    declare
-      D : Digest := (others => 16#AB#);
-      Hex : String := Digest_To_Hex (D);
+      D : constant Digest := [others => 16#AB#];
+      Hex : constant String := Digest_To_Hex (D);
    begin
       Check ("7.1 Hex length correct", Hex'Length = 128);
       Check ("7.2 Contains expected hex encoding", Hex(1..4) = "ABAB");
@@ -106,8 +106,8 @@ begin
    -- TEST 8 — Edge Case: Single Byte Message
    Put_Line ("TEST 8 — Edge Case: Single Byte Message");
    declare
-      Msg : Message := (1 => 16#FF#);
-      Res : Digest := Hash (Msg);
+      Msg : constant Message := [1 => 16#FF#];
+      Res : constant Digest := Hash (Msg);
    begin
       Check ("8.1 Single byte hash succeeds", Res'Length = 64);
       Check ("8.2 Different from empty hash", Digest_To_Hex (Res) /= Digest_To_Hex (Hash_String ("")));
@@ -147,8 +147,8 @@ begin
    -- TEST 11 — Collision Resistance Property (Sanity check)
    Put_Line ("TEST 11 — Collision Resistance Property");
    declare
-      Res1 : Digest := Hash_String ("Hello");
-      Res2 : Digest := Hash_String ("Hellp");
+      Res1 : constant Digest := Hash_String ("Hello");
+      Res2 : constant Digest := Hash_String ("Hellp");
    begin
       Check ("11.1 Different inputs yield different digests (byte 0)", Res1(0) /= Res2(0));
       Check ("11.2 Different inputs yield different digests (byte 31)", Res1(31) /= Res2(31));
@@ -159,7 +159,7 @@ begin
    Put_Line ("TEST 12 — API Consistency Across Wrapper");
    declare
       Text : constant String := "Ada 2023 Verification";
-      Res_Str : Digest := Hash_String (Text);
+      Res_Str : constant Digest := Hash_String (Text);
       Res_Bin : Digest;
    begin
       declare
@@ -182,7 +182,7 @@ begin
    begin
       begin
          declare
-            D : Digest := Hash_String ("Test");
+            D : constant Digest := Hash_String ("Test");
             pragma Unreferenced (D);
          begin
             Exception_Raised := True;
