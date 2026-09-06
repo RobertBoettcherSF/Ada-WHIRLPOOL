@@ -19,15 +19,13 @@ package Whirlpool is
 
    -- Public Subprograms
    function Hash (Data : Message) return Digest
-      with Pre => Data'Length >= 0,
-           Post => Hash'Result'Length = 64;
+      with Global => null;
 
    function Hash_String (S : String) return Digest
-      with Pre => S'Length >= 0,
-           Post => Hash_String'Result'Length = 64;
+      with Global => null;
 
    function Digest_To_Hex (D : Digest) return String
-      with Pre => D'Length = 64,
+      with Global => null,
            Post => Digest_To_Hex'Result'Length = 128;
 
 end Whirlpool;
